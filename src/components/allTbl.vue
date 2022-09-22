@@ -78,7 +78,7 @@
       >
         <td  v-on:click="tableDetails = !tableDetails">
           <input type="checkbox" />
-          <i class="fa-solid fa-arrow-down" style="margin-left: 15px"></i>
+          <i class="fa fa-circle-down" style="margin-left: 15px"></i>
         </td>
         <td>
           <h5>

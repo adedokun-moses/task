@@ -172,7 +172,7 @@ export default {
 }
 
 table {
-  width: 94%;
+  width: 100%;
   margin: 10px auto;
   border-collapse: collapse;
 }
