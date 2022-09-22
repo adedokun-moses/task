@@ -1,103 +1,33 @@
-<template>
-  <div>
-    <Nav />
-  </div>
-
-  <alltbl v-if="all == true"></alltbl>
-  <paidtbl v-if="paid == true"></paidtbl>
-  <overdue v-if="overdue"></overdue>
-  <unpaid v-if="unpaid"></unpaid>
-
-
-  <!-- <h5 v-for="data in datas " :key="data.id">Moses {{data.id}}</h5> -->
-</template>
-
- <script>
-import Nav from "@/components/nav.vue";
-import alltbl from "@/components/allTbl.vue";
-import overdue from "@/components/overdue.vue";
-import paidtbl from "@/components/paidTbl.vue";
-import unpaid from "@/components/unpaid.vue"
-import axios from 'axios'
-export default {
-  components: { Nav, alltbl, paidtbl, overdue, unpaid },
-  data() {
-    return {
-      activeItem: "home",
-      all: true,
-      paid: false,
-      overdue: false,
-      unpaid: false,
-    //  datas: ''
-
-    };
-  },
-  methods: {
-    viewTbls(type) {
-      if (type == "all") {
-        //alert('all')
-        this.all = true;
-        this.paid = false;
-        this.overdue = false;
-        this.unpaid = false
-      }
-
-      if (type == "paid") {
-        //alert('paid')
-        this.all = false;
-        this.overdue = false;
-        this.paid = true;
-        this.unpaid = false
-      }
-      if (type == "overdue") {
-        this.overdue = true;
-        this.all = false;
-        this.paid = false;
-        this.unpaid =false
-      }
-      if(type == "unpaid"){
-        this.unpaid = true;
-        this.all = false;
-        this.paid = false;
-        this.overdue = false
-      }
-    },
-    
-  },
-
-};
-</script> 
-
-
-
-
-
-<style scoped>
 .nav {
   width: 90%;
   margin: auto;
 }
+
 .nav ul {
   display: flex;
   padding: 0px;
   list-style: none;
   border-bottom: 1px solid grey;
 }
+
 .nav li {
   margin: 0px 10px;
   padding-bottom: 3px;
 }
+
 .nav li a {
   margin: 0px 10px;
   padding-bottom: 3px;
   text-decoration: none;
   color: #6e6893;
 }
+
 .nav li:hover {
   margin: 0px 10px;
   padding-bottom: 3px;
   border-bottom: 2px solid grey;
 }
+
 .amount {
   color: #6d5bd0;
   font-size: 20px;
@@ -110,9 +40,11 @@ export default {
   margin: auto;
   align-items: center;
 }
-.filterbox > div {
+
+.filterbox>div {
   width: 100%;
 }
+
 .search {
   display: flex;
   align-items: center;
@@ -125,19 +57,25 @@ export default {
   border: 1px solid #c6c2de;
   border-radius: 6px;
 }
+
 .users_search {
   display: flex;
   align-items: center;
   width: 70%;
   margin: 20px 10px;
+  border: 0px solid white;
   outline: none;
   background: #f4f2ff;
   border-radius: 6px;
+}
+.users_search:hover{
+  border: 0.4px solid #6D5BD0;
 }
 .users_search i {
   margin: 0px 10px;
   color: #8b83ba;
 }
+
 .filterbox input {
   width: 100%;
   margin: 20px 10px;
@@ -164,11 +102,9 @@ export default {
   background: #ffffff;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  margin: auto;
-  height: auto;
-  margin-bottom: 60px;
-
-
+  margin: 50px auto;
+  height: 1000px;
+ 
 }
 
 table {
@@ -176,10 +112,12 @@ table {
   margin: 10px auto;
   border-collapse: collapse;
 }
+
 table thead {
   background: #f4f2ff;
   padding: 10px;
 }
+
 table th {
   margin: 0px;
   text-align: left;
@@ -192,6 +130,65 @@ table td {
   text-align: left;
   border-bottom: 1px solid #d9d5ec;
 }
+
+.delete_button{
+  border: none;
+  background: none;
+  font-weight: bold;
+}
+.dropdown-menu_table {
+  position: absolute;
+  border: 1px solid #C6C2DE;
+  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  z-index: 22;
+  width: 84.6%;
+  background: #F4F2FF;
+  overflow: hidden;
+  font-size: small;
+  font-family: Arial;
+  line-height: 2em;
+  word-spacing: 0;
+  margin-top: 2px;
+  transition: all 0.3s;
+
+
+}
+
+
+
+.dropdown_table {
+  width: 85%;
+
+  
+}
+
+.paignation{
+  background: #F4F2FF;
+  padding: 5px;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+.page{
+  display: flex;
+  align-items: center;
+  width: 40%;
+  float: right;
+  font-size: 13px;
+  color: #6E6893;
+}
+.page  div{
+  width: 100%;
+}
+.page select{
+  border: none;
+  background: none;
+  padding: 0px 10px;
+}
+
+
+/* table ends here*/
 .data_details button {
   background: #d0d3d9;
   padding: 2px 10px;
@@ -203,10 +200,12 @@ table td {
   background: #e6e6f2;
   padding: 2px 15px;
   border-radius: 5px;
+  color: #4A4AFF;
 }
+
 .paid {
-  background: #007f00;
-  padding: 2px 15px;
+  background: #007F00;;
+  padding: 2px 20px;
   border-radius: 5px;
 }
 
@@ -218,11 +217,11 @@ table td {
 }
 
 /* .dropbtn {
-  color: #200303;
-  border: none;
-  cursor: pointer;
-  margin-left: 10px;
-} */
+    color: #200303;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+  } */
 
 .contents hr {
   width: 70%;
@@ -236,23 +235,26 @@ table td {
   padding: 0px;
   font-size: 10px;
 }
-.contents > div {
+
+.contents>div {
   width: 100%;
 }
+
 .contents input {
   margin: 10px;
 }
+
 .contents:hover {
   background: #d0d3d9;
   border-radius: 5px;
 }
 
 /* .contents > div {
-  width: 100%;
-  margin: 0px;
-  padding: 0px;
-}
- */
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+  }
+   */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -276,17 +278,87 @@ table td {
   display: block;
 }
 
-.dropdown-content a:hover {
+/*   .dropdown-content a:hover {
+    background-color: white;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+   */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  padding: 20px 10px;
+  border: 1px solid #c6c2de;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.dropdown-menu {
+  position: absolute;
+  border: 1px solid #C6C2DE;
+  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  z-index: 22;
+  min-width: 150px;
   background-color: white;
+  overflow: hidden;
+  font-size: small;
+  font-family: Arial;
+  line-height: 2em;
+  word-spacing: 0;
+  margin-top: 2px;
 }
 
-.dropdown:hover .dropdown-content {
+
+
+.dropdown-menu a {
+  font-size: 1.25em;
+  color: #00C;
+  padding: .25em 2em .25em 1em;
+  text-decoration: none;
+  background: white;
   display: block;
+  cursor: pointer;
 }
 
-/* .dropdown:hover .dropbtn {
-  background-color: black;
-} */
+.dropdown-menu a:hover {
+  background: #00C;
+  color: white;
+}
 
-/* >>>>>>>>Ends HERE   >>>>>>>>>>>>>>>> */
-</style>
+.dropdown-menu_modal {
+  position: absolute;
+  border: 1px solid #C6C2DE;
+  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  z-index: 22;
+  right: 2;
+  min-width: 100px;
+  background-color: white;
+  overflow: hidden;
+  font-size: 15px;
+  font-family: Arial;
+  line-height: 2em;
+  word-spacing: 0;
+  margin-top: 2px;
+}
