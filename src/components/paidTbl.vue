@@ -200,8 +200,8 @@ export default {
       const res = await axios.get(
         "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
       );
-
-      this.users = res.data.data;
+      const size = 4;
+      this.users = res.data.data.splice(0, size);
       this.users.sort();
       console.log(this.users);
     } catch (error) {
