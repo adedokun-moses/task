@@ -1,5 +1,5 @@
 <template>
-  <div class="col-table">
+  <div class="col-table" style="background-color: red !important">
     <div class="filterbox">
       <div class="search">
         <div class="dropdown">
@@ -70,8 +70,10 @@
         <th>Amount</th>
         <th>:</th>
       </thead>
-
       <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
+        {{
+          user.id
+        }}
         <td v-on:click="tableDetails = !tableDetails">
           <input type="checkbox" />
           <i class="fa-solid fa-arrow-down" style="margin-left: 15px"></i>
@@ -183,7 +185,7 @@ export default {
       tableDetails: false,
       openModal: "",
       search: null,
-      users: [],
+      users: "",
     };
   },
 
@@ -194,19 +196,26 @@ export default {
       }
       return (this.openModal = "");
     },
+    async fetchUsers() {
+      try {
+        const res = await axios.get(
+          "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
+        );
+        let rec = res.data.data;
+        rec.forEach((element) => {
+          if (element.paymentStatus == "paid") {
+            console.log(element);
+            this.users = element.paymentStatus;
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
-  async created() {
-    try {
-      const res = await axios.get(
-        "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
-      );
-      const size = 4;
-      this.users = res.data.data.splice(0, size);
-      this.users.sort();
-      console.log(this.users);
-    } catch (error) {
-      console.log(error);
-    }
+  mounted() {
+    console.log(this.users);
+    this.fetchUsers();
   },
 };
 </script>

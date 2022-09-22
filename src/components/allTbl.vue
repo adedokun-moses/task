@@ -190,6 +190,7 @@ export default {
         return (this.openModal = id);
       }
       return (this.openModal = "");
+      
     
     },
     filteredList() {
