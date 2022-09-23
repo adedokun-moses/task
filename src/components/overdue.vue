@@ -14,7 +14,7 @@
       <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
         <td v-on:click="tableDetails = !tableDetails">
           <input type="checkbox" />
-          <i class="fa-solid fa-arrow-down" style="margin-left: 15px"></i>
+          <i  class="fa fa-arrow-circle-down"  style="margin-left: 15px;  color: #8B83BA;"></i>
         </td>
         <td>
           <h5>
@@ -25,7 +25,7 @@
         <td>
           <h5>
             <span class="active" style="background: #E6E6F2!important; color: #4A4AFF!important "
-              ><i class="fa fa-circle"></i> {{ user.userStatus }}</span
+              ><i class="fa fa-circle" ></i> {{ user.userStatus }}</span
             >
             <br />
             Last login: {{ user.lastLogin }}

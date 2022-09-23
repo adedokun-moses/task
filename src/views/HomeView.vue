@@ -18,7 +18,6 @@ import alltbl from "@/components/allTbl.vue";
 import overdue from "@/components/overdue.vue";
 import paidtbl from "@/components/paidTbl.vue";
 import unpaid from "@/components/unpaid.vue"
-import axios from 'axios'
 export default {
   components: { Nav, alltbl, paidtbl, overdue, unpaid },
   data() {

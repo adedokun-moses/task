@@ -19,7 +19,7 @@
         </li>
         <li>
           <router-link to="#" @click="this.$parent.viewTbls('overdue')"
-            >Overview</router-link
+            >Overdue</router-link
           >
         </li>
         <li style="margin-left: 37rem; border-bottom: none">
@@ -44,13 +44,15 @@ export default {
       const res = await axios.get(
         "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
       );
-      const user = res.data.data.filter((obj) => {
-        return obj.paymentStatus == "unpaid";
+      let sum = 0;
+      res.data.data.forEach((obj) => {
+        if (obj.paymentStatus == "unpaid" || obj.paymentStatus == "overdue") {
+          console.log(obj.amountInCents);
+          sum += obj.amountInCents;
+          this.totalAmount = sum;
+        }
       });
-      let price = user[0].amountInCents * 2;
 
-      console.log(price);
-      console.log(user);
     } catch (error) {
       console.log(error);
     }
@@ -85,11 +87,18 @@ export default {
   padding-bottom: 3px;
   border-bottom: 2px solid grey;
 }
-/* .nav li:active {
+/*  .nav li:focus {
   margin: 0px 10px;
   padding-bottom: 3px;
   border-bottom: 2px solid grey;
-} */
+}  */
+
+.router-link-active .router-link-exact-active{
+  
+  margin: 0px 10px;
+  padding-bottom: 3px;
+  border-bottom: 2px solid grey;
+}
 .amount {
   color: #6d5bd0;
   font-size: 20px;

@@ -14,7 +14,7 @@
       <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
         <td v-on:click="tableDetails = !tableDetails">
           <input type="checkbox" />
-          <i class="fa-solid fa-arrow-down" style="margin-left: 15px"></i>
+          <i class="fa fa-arrow-circle-down"  style="margin-left: 15px;  color: #8B83BA"></i>
         </td>
         <td>
           <h5>

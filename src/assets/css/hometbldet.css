@@ -28,11 +28,7 @@
   border-bottom: 2px solid grey;
 }
 
-.nav li a:active {
-  margin: 0px 10px;
-  padding-bottom: 3px;
-  border-bottom: 2px solid red;
-}
+
 .amount {
   color: #6d5bd0;
   font-size: 20px;
@@ -215,7 +211,20 @@ table td {
 }
 
 .paid {
-  background: #007F00;;
+  background: #007F00;
+  padding: 2px 20px;
+  border-radius: 5px;
+}
+
+.unpaid {
+  background:  #FFECCC;
+  color: #CE8500;
+  padding: 2px 20px;
+  border-radius: 5px;
+}
+.overdue{
+  background:  #FFECCC;
+  color: #CE8500;
   padding: 2px 20px;
   border-radius: 5px;
 }
@@ -363,7 +372,7 @@ table td {
   box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   z-index: 22;
-  right: 2;
+  right: 80px ;
   min-width: 100px;
   background-color: white;
   overflow: hidden;

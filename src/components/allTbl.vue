@@ -74,7 +74,10 @@
       <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
         <td>
           <input type="checkbox" @change="markPaid($event)" />
-          <i class="fa fa-circle-down" style="margin-left: 15px"></i>
+          <i
+            class="fa fa-arrow-circle-down"
+            style="margin-left: 15px; color: #8b83ba"
+          ></i>
         </td>
         <td>
           <h5>
@@ -93,7 +96,10 @@
         </td>
         <td>
           <h5>
-            <span class="paid"
+            <span class="paid" v-if="user.paymentStatus=='paid'"
+              ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
+            >
+            <span class="unpaid" v-if="user.paymentStatus =='overdue'"
               ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
             >
             <br />
@@ -103,7 +109,7 @@
         <td>
           <h5>
             ${{ user.amountInCents }}<br />USD
-            <span style="margin-left: 100px" @click="openTableDetails(user.id)">
+            <span style="margin-left: 100px; cursor: pointer;" @click="openTableDetails(user.id)">
               View More</span
             >
           </h5>
@@ -143,7 +149,7 @@
               <div><label>View Profile</label></div>
             </div>
             <div class="contents">
-              <div><label>Activate User</label></div>
+              <div><label @click="activate(user.id)"><span><i class="fa fa-refresh fa-spin" v-if="status == true"></i></span>{{msg?msg:'Activate User'}} </label></div>
             </div>
             <div class="contents">
               <div><label style="color: red">Delete User</label></div>
@@ -188,6 +194,8 @@ export default {
       checked_res: "",
       users: [],
       search: "",
+      status: false,
+      msg: ""
     };
   },
   methods: {
@@ -209,7 +217,7 @@ export default {
       if (checked_res == true) {
         try {
           const res = await axios.get(
-            "https://cornie-assessment.herokuapp.com/mark-paid/" 
+            "https://cornie-assessment.herokuapp.com/mark-paid/"
           );
 
           console, log(res.data);
@@ -218,7 +226,44 @@ export default {
         }
       }
     },
+
+     async activate(id) {
+      this.status = true
+      try {
+        const res = await axios.patch(
+          "https://cornie-assessment.herokuapp.com/activate-user/"+ id 
+        );
+        let rec = res.data
+        if(rec.status == true){
+          this.status = false
+          this.msg = "User Activated"
+          this.$router.go()
+        } 
+
+  
+       // this.users = user;
+        console.log(res.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+  
+    filteredList() {
+      if (this.search) {
+        return this.users.filter((item) => {
+          return this.search
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.firstName.toLowerCase().includes(v));
+        });
+      } else {
+        return this.datas;
+      }
+    },
+
+  
   },
+
 
   async created() {
     try {
@@ -232,6 +277,7 @@ export default {
     }
   },
 };
+
 </script>
 <style scoped>
 @import "../assets/css/hometbldet.css";
