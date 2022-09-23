@@ -28,6 +28,11 @@
   border-bottom: 2px solid grey;
 }
 
+.nav li a:active {
+  margin: 0px 10px;
+  padding-bottom: 3px;
+  border-bottom: 2px solid red;
+}
 .amount {
   color: #6d5bd0;
   font-size: 20px;
@@ -69,6 +74,9 @@
   border-radius: 6px;
 }
 .users_search:hover{
+  border: 0.4px solid #6D5BD0;
+}
+.users_search:focus{
   border: 0.4px solid #6D5BD0;
 }
 .users_search i {
@@ -143,6 +151,8 @@ table td {
   box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   z-index: 22;
+  left: 65px;
+  top: 295px;
   width: 90%;
   background: #F4F2FF;
   overflow: hidden;

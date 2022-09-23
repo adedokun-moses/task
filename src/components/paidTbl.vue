@@ -1,66 +1,6 @@
 <template>
-  <div class="col-table" style="background-color: red !important">
-    <div class="filterbox">
-      <div class="search">
-        <div class="dropdown">
-          <button
-            class="dropdown-toggle"
-            v-on:click="sortingDetails = !sortingDetails"
-          >
-            <i class="fa fa-filter"> </i> Filter
-          </button>
-          <div class="dropdown-menu" v-show="sortingDetails">
-            <h4 style="margin: 10px">Sort By:</h4>
-
-            <div class="contents">
-              <div><label>Default</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>First Name</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>Last Name</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>Due Date</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents" style="border-bottom: 2px solid grey">
-              <div><label>Last Login</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <h4 style="margin: 10px">USERS:</h4>
-            <div class="contents">
-              <div><label>All</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>Active</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>Inactive</label></div>
-              <div><input type="radio" /></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="users_search">
-          <i class="fa fa-search"></i>
-          <input
-            type="text"
-            placeholder="Search Users by Name, Email or Date"
-            v-model="search"
-          />
-        </div>
-      </div>
-      <div class="payment">
-        <button>Pay Dues</button>
-      </div>
-    </div>
+  <div class="col-table">
+     <Search/>
     <table>
       <thead>
         <th><input type="checkbox" /></th>
@@ -70,10 +10,9 @@
         <th>Amount</th>
         <th>:</th>
       </thead>
+
       <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
-        {{
-          user.id
-        }}
+      
         <td v-on:click="tableDetails = !tableDetails">
           <input type="checkbox" />
           <i class="fa-solid fa-arrow-down" style="margin-left: 15px"></i>
@@ -86,7 +25,7 @@
         </td>
         <td>
           <h5>
-            <span class="active"
+            <span class="active" 
               ><i class="fa fa-circle"></i> {{ user.userStatus }}</span
             >
             <br />
@@ -95,7 +34,7 @@
         </td>
         <td>
           <h5>
-            <span class="paid"
+            <span class="paid" style="color: #007F00; background: #CDFFCD; "
               ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
             >
             <br />
@@ -178,14 +117,16 @@
 
 <script>
 import axios from "axios";
+import Search from '@/components/search.vue'
 export default {
+  components: {Search},
   data() {
     return {
       sortingDetails: false,
       tableDetails: false,
       openModal: "",
       search: null,
-      users: "",
+      users: [],
     };
   },
 
@@ -201,20 +142,16 @@ export default {
         const res = await axios.get(
           "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
         );
-        let rec = res.data.data;
-        rec.forEach((element) => {
-          if (element.paymentStatus == "paid") {
-            console.log(element);
-            this.users = element.paymentStatus;
-          }
+        const user = res.data.data.filter((obj) => {
+          return obj.paymentStatus == "paid";
         });
+        this.users = user 
       } catch (error) {
         console.log(error);
       }
     },
   },
   mounted() {
-    console.log(this.users);
     this.fetchUsers();
   },
 };

@@ -1,66 +1,6 @@
 <template>
-   <div class="col-table">
-    <div class="filterbox">
-      <div class="search">
-        <div class="dropdown">
-          <button
-            class="dropdown-toggle"
-            v-on:click="sortingDetails = !sortingDetails"
-          >
-            <i class="fa fa-filter"> </i> Filter
-          </button>
-          <div class="dropdown-menu" v-show="sortingDetails">
-            <h4 style="margin: 10px">Sort By:</h4>
-
-            <div class="contents">
-              <div><label>Default</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>First Name</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>Last Name</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>Due Date</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents" style="border-bottom: 2px solid grey">
-              <div><label>Last Login</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <h4 style="margin: 10px">USERS:</h4>
-            <div class="contents">
-              <div><label>All</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>Active</label></div>
-              <div><input type="radio" /></div>
-            </div>
-            <div class="contents">
-              <div><label>Inactive</label></div>
-              <div><input type="radio" /></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="users_search">
-          <i class="fa fa-search"></i>
-          <input
-            type="text"
-            placeholder="Search Users by Name, Email or Date"
-            v-model="search"
-          />
-        </div>
-      </div>
-      <div class="payment">
-        <button>Pay Dues</button>
-      </div>
-    </div>
+  <div class="col-table">
+    <Search/>
     <table>
       <thead>
         <th><input type="checkbox" /></th>
@@ -84,7 +24,9 @@
         </td>
         <td>
           <h5>
-            <span class="active"
+            <span
+              class="active"
+              style="background: #e6e6f2 !important; color: #4a4aff !important"
               ><i class="fa fa-circle"></i> {{ user.userStatus }}</span
             >
             <br />
@@ -93,7 +35,7 @@
         </td>
         <td>
           <h5>
-            <span class="paid"
+            <span class="paid" style="color: #965e00; background: #ffeccc"
               ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
             >
             <br />
@@ -176,8 +118,10 @@
 
 
 <script>
+import Search from '@/components/search.vue'
 import axios from "axios";
 export default {
+  components:{Search},
   data() {
     return {
       sortingDetails: false,
@@ -195,24 +139,28 @@ export default {
       }
       return (this.openModal = "");
     },
+
+    async fetchUsers() {
+      try {
+        const res = await axios.get(
+          "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
+        );
+        const user = res.data.data.filter((obj) => {
+          return obj.paymentStatus == "unpaid";
+        });
+        this.users = user;
+        console.log(this.users);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
-  async created() {
-    try {
-      const res = await axios.get(
-        "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
-      );
-      const size = 4;
-      this.users = res.data.data.splice(0, size);
-      this.users.sort();
-      console.log(this.users);
-    } catch (error) {
-      console.log(error);
-    }
+
+  mounted() {
+    this.fetchUsers();
   },
 };
 </script>
 <style scoped>
-
 @import "../assets/css/hometbldet.css";
-
 </style>

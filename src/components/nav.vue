@@ -2,50 +2,61 @@
   <div class="nav">
     <div>
       <ul>
-        <li><router-link to="#" @click="this.$parent.viewTbls('all')" >All</router-link></li>
-        <li><router-link to="#" @click="this.$parent.viewTbls('paid')">Paid</router-link></li>
-        <li><router-link to="#"  @click="this.$parent.viewTbls('unpaid')">Unpaid</router-link></li>
-        <li><router-link to="#"  @click="this.$parent.viewTbls('overdue')">Overview</router-link></li>
+        <li>
+          <router-link to="#" @click="this.$parent.viewTbls('all')"
+            >All</router-link
+          >
+        </li>
+        <li>
+          <router-link to="#" @click="this.$parent.viewTbls('paid')"
+            >Paid</router-link
+          >
+        </li>
+        <li>
+          <router-link to="#" @click="this.$parent.viewTbls('unpaid')"
+            >Unpaid</router-link
+          >
+        </li>
+        <li>
+          <router-link to="#" @click="this.$parent.viewTbls('overdue')"
+            >Overview</router-link
+          >
+        </li>
         <li style="margin-left: 37rem; border-bottom: none">
-          Total payable amount: <span class="amount">${{totalAmount}}</span> USD
+          Total payable amount:
+          <span class="amount">${{ totalAmount }}</span> USD
         </li>
       </ul>
     </div>
   </div>
-
 </template>
-<script>
-import axios from 'axios';
+ <script>
+import axios from "axios";
 export default {
-  data(){
-    return{
+  data() {
+    return {
       totalAmount: 0,
-      users: ""
-
-    }
+    };
   },
 
-
-   async created() {
+  async created() {
     try {
       const res = await axios.get(
         "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
       );
-     
-      this.users = res.data.data;
-      this.totalAmount = this.users[0].amountInCents
+      const user = res.data.data.filter((obj) => {
+        return obj.paymentStatus == "unpaid";
+      });
+      let price = user[0].amountInCents * 2;
 
-      console.log(this.users);
-      console.log(this.users);
-
-      // console.log(res.data.data);
-      // console.log(res.data.data[0])
+      console.log(price);
+      console.log(user);
     } catch (error) {
       console.log(error);
     }
   },
-}
-</script>
+};
+</script> 
 
 
 <style scoped>
@@ -84,6 +95,4 @@ export default {
   font-size: 20px;
   font-weight: bold;
 }
-
-
 </style>
