@@ -1,6 +1,6 @@
 <template>
   <div class="col-table">
-     <Search/>
+    <Search />
     <table>
       <thead>
         <th><input type="checkbox" /></th>
@@ -12,10 +12,12 @@
       </thead>
 
       <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
-      
         <td v-on:click="tableDetails = !tableDetails">
           <input type="checkbox" />
-          <i  class="fa fa-arrow-circle-down"  style="margin-left: 15px;  color: #8B83BA"></i>
+          <i
+            class="fa fa-arrow-circle-down"
+            style="margin-left: 15px; color: #8b83ba"
+          ></i>
         </td>
         <td>
           <h5>
@@ -25,7 +27,7 @@
         </td>
         <td>
           <h5>
-            <span class="active" 
+            <span class="active"
               ><i class="fa fa-circle"></i> {{ user.userStatus }}</span
             >
             <br />
@@ -34,7 +36,7 @@
         </td>
         <td>
           <h5>
-            <span class="paid" style="color: #007F00; background: #CDFFCD; "
+            <span class="paid" style="color: #007f00; background: #cdffcd"
               ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
             >
             <br />
@@ -125,7 +127,7 @@ export default {
       sortingDetails: false,
       tableDetails: false,
       openModal: "",
-      search: null,
+      search: " ",
       users: [],
     };
   },
@@ -151,6 +153,7 @@ export default {
       }
     },
   },
+
   mounted() {
     this.fetchUsers();
   },

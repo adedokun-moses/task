@@ -5,11 +5,9 @@
 
   <alltbl v-if="all == true"></alltbl>
   <paidtbl v-if="paid == true"></paidtbl>
-  <overdue v-if="overdue"></overdue>
-  <unpaid v-if="unpaid"></unpaid>
+  <overdue v-if="overdue == true"></overdue>
+  <unpaid v-if="unpaid == true"></unpaid>
 
-
-  <!-- <h5 v-for="data in datas " :key="data.id">Moses {{data.id}}</h5> -->
 </template>
 
  <script>
@@ -27,7 +25,6 @@ export default {
       paid: false,
       overdue: false,
       unpaid: false,
-    //  datas: ''
 
     };
   },
@@ -66,9 +63,6 @@ export default {
 
 };
 </script> 
-
-
-
 
 
 <style scoped>

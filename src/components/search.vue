@@ -53,7 +53,6 @@
           type="text"
           placeholder="Search Users by Name, Email or Date"
           v-model="search"
-          @change="filteredList()"
         />
       </div>
     </div>
@@ -73,24 +72,25 @@ export default {
     };
   },
   methods: {
-    /*  search() {
-      return details.filter((det) =>
-        det.toLowerCase().includes(this.search.value.toLowerCase())
-      );
-    }, */
+   
+  },
 
-    filteredList() {
+  computed:{
+     resultQuery() {
       if (this.search) {
         return this.details.filter((item) => {
           return this.search
             .toLowerCase()
             .split(" ")
-            .every((v) => item.email.toLowerCase().includes(v));
+            .every((v) => item.firstName.toLowerCase().includes(v));
         });
       } else {
         return this.details;
       }
-    },
+    }
+  },
+  mounted(){
+    this.$parent.users_d = this.resultQuery
   },
 
   async created() {
@@ -99,11 +99,11 @@ export default {
         "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
       );
       this.details = res.data.data;
-      console.log(this.details);
+     // console.log(this.details);
     } catch (error) {
       console.log(error);
     }
-  },
+  }, 
 };
 </script>
 

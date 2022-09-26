@@ -31,32 +31,28 @@
   </div>
 </template>
  <script>
-import axios from "axios";
 export default {
   data() {
     return {
-      totalAmount: 0,
     };
   },
-
-  async created() {
-    try {
-      const res = await axios.get(
-        "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
-      );
-      let sum = 0;
-      res.data.data.forEach((obj) => {
-        if (obj.paymentStatus == "unpaid" || obj.paymentStatus == "overdue") {
-          console.log(obj.amountInCents);
-          sum += obj.amountInCents;
-          this.totalAmount = sum;
-        }
-      });
-
-    } catch (error) {
-      console.log(error);
+  methods(){
+   
+  
+  
+    
+  
+  },
+  computed:{
+    totalAmount(){
+      return this.$store.state.totalAmount
     }
   },
+  mounted() {
+    this.$store.commit('TOTAL_AMOUNT')
+  },
+
+
 };
 </script> 
 
@@ -87,17 +83,10 @@ export default {
   padding-bottom: 3px;
   border-bottom: 2px solid grey;
 }
-/*  .nav li:focus {
+.router-link-active .router-link-exact-active {
   margin: 0px 10px;
   padding-bottom: 3px;
-  border-bottom: 2px solid grey;
-}  */
-
-.router-link-active .router-link-exact-active{
-  
-  margin: 0px 10px;
-  padding-bottom: 3px;
-  border-bottom: 2px solid grey;
+  border-bottom: 2px solid red;
 }
 .amount {
   color: #6d5bd0;

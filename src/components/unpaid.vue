@@ -1,6 +1,6 @@
 <template>
   <div class="col-table">
-    <Search/>
+    <Search />
     <table>
       <thead>
         <th><input type="checkbox" /></th>
@@ -14,7 +14,10 @@
       <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
         <td v-on:click="tableDetails = !tableDetails">
           <input type="checkbox" />
-          <i class="fa fa-arrow-circle-down"  style="margin-left: 15px;  color: #8B83BA"></i>
+          <i
+            class="fa fa-arrow-circle-down"
+            style="margin-left: 15px; color: #8b83ba"
+          ></i>
         </td>
         <td>
           <h5>
@@ -118,10 +121,10 @@
 
 
 <script>
-import Search from '@/components/search.vue'
+import Search from "@/components/search.vue";
 import axios from "axios";
 export default {
-  components:{Search},
+  components: { Search },
   data() {
     return {
       sortingDetails: false,
@@ -154,8 +157,9 @@ export default {
         console.log(error);
       }
     },
+    
   },
-
+ 
   mounted() {
     this.fetchUsers();
   },

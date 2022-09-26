@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="payment">
-        <button @click="markPaid(user.id)">Pay Dues</button>
+        <button @click="submitPaid()">Pay Dues</button>
       </div>
     </div>
     <table>
@@ -71,92 +71,115 @@
         <th>:</th>
       </thead>
 
-      <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
-        <td>
-          <input type="checkbox" @change="markPaid($event)" />
-          <i
-            class="fa fa-arrow-circle-down"
-            style="margin-left: 15px; color: #8b83ba"
-          ></i>
-        </td>
-        <td>
-          <h5>
-            {{ user.firstName }} {{ user.lastName }}<br />
-            {{ user.email }}
-          </h5>
-        </td>
-        <td>
-          <h5>
-            <span class="active"
-              ><i class="fa fa-circle"></i> {{ user.userStatus }}</span
-            >
-            <br />
-            Last login: {{ user.lastLogin }}
-          </h5>
-        </td>
-        <td>
-          <h5>
-            <span class="paid" v-if="user.paymentStatus=='paid'"
-              ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
-            >
-            <span class="unpaid" v-if="user.paymentStatus =='overdue'"
-              ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
-            >
-            <br />
-            Paid on: {{ user.paidOn }}
-          </h5>
-        </td>
-        <td>
-          <h5>
-            ${{ user.amountInCents }}<br />USD
-            <span style="margin-left: 100px; cursor: pointer;" @click="openTableDetails(user.id)">
-              View More</span
-            >
-          </h5>
-          <div class="dropdown-menu_table" v-if="openTableDet == user.id">
-            <table class="dropdown_table">
-              <thead>
-                <th>Date</th>
-                <th>User Activity</th>
-                <th>Details</th>
-              </thead>
-              <tbody>
-                <td>12/APR/2020</td>
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Ultricies.
-                </td>
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Rhoncus, sed purus eu semper morbi id nunc, adipiscing vitae.
-                  Ultricies suspendisse vestibulum.
-                </td>
-              </tbody>
-            </table>
-          </div>
-        </td>
+      <tbody v-for="user in resultQuery" :key="user.id">
+        <tr>
+          <td>
+            <input
+              type="checkbox"
+              @change="markPaid(user.id, user.paymentStatus)"
+            />
+            <i
+              class="fa fa-arrow-circle-down"
+              style="margin-left: 15px; color: #8b83ba"
+            ></i>
+          </td>
+          <td @click="openTableDetails(user.id)">
+            <h5>
+              {{ user.firstName }} {{ user.lastName }}<br />
+              {{ user.email }}
+            </h5>
+          </td>
+          <td @click="openTableDetails(user.id)">
+            <h5>
+              <span class="active"
+                ><i class="fa fa-circle"></i> {{ user.userStatus }}</span
+              >
+              <br />
+              Last login: {{ user.lastLogin }}
+            </h5>
+          </td>
+          <td @click="openTableDetails(user.id)">
+            <h5>
+              <span class="paid" v-if="user.paymentStatus == 'paid'"
+                ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
+              >
+              <span class="unpaid" v-if="user.paymentStatus == 'overdue'"
+                ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
+              >
+              <br />
+              Paid on: {{ user.paidOn }}
+            </h5>
+          </td>
+          <td @click="openTableDetails(user.id)">
+            <h5>
+              ${{ user.amountInCents }}<br />USD
+              <span
+                style="margin-left: 100px; cursor: pointer"
+                @click="openTableDetails(user.id)"
+              >
+                View More</span
+              >
+            </h5>
+          </td>
 
-        <td>
-          <button class="delete_button" @click="openDeleteModal(user.id)">
-            :
-          </button>
+          <td>
+            <button class="delete_button" @click="openDeleteModal(user.id)">
+              :
+            </button>
 
-          <div class="dropdown-menu_modal" v-if="openModal == user.id">
-            <div class="contents">
-              <div><label>Edit</label></div>
+            <div class="dropdown-menu_modal" v-if="openModal == user.id">
+              <div class="contents">
+                <div><label>Edit</label></div>
+              </div>
+              <div class="contents">
+                <div><label>View Profile</label></div>
+              </div>
+              <div class="contents">
+                <div>
+                  <label @click="activate(user.id)"
+                    ><span
+                      ><i
+                        class="fa fa-refresh fa-spin"
+                        v-if="status == true"
+                      ></i></span
+                    >{{ msg ? msg : "Activate User" }}
+                  </label>
+                </div>
+              </div>
+              <div class="contents">
+                <div>
+                  <label style="color: red" @click="deleteUser(user.id)"
+                    ><span
+                      ><i class="fa fa-bell" v-if="status == true"></i></span
+                    >{{ msg ? msg : "Delete User" }}</label
+                  >
+                </div>
+              </div>
             </div>
-            <div class="contents">
-              <div><label>View Profile</label></div>
-            </div>
-            <div class="contents">
-              <div><label @click="activate(user.id)"><span><i class="fa fa-refresh fa-spin" v-if="status == true"></i></span>{{msg?msg:'Activate User'}} </label></div>
-            </div>
-            <div class="contents">
-              <div><label style="color: red">Delete User</label></div>
-            </div>
-          </div>
-        </td>
-      </tr>
+          </td>
+        </tr>
+        <tr v-if="openTableDet == user.id" class="dropdown_table">
+          <td colspan="2" style="text-align: center">
+            <h5>Date</h5>
+            <p>12/APR/2020</p>
+          </td>
+          <td colspan="2">
+            <h5>User Activity</h5>
+            <p>
+              Lorem ipsum dolor sit amet,<br />
+              consectetur adipiscing elit. Ultricies.
+            </p>
+          </td>
+          <td colspan="3" >
+            <h5>Details</h5>
+            <p>
+              Lorem ipsum dolor sit amet, <br />consectetur adipiscing elit. 
+              Rhoncus,<br /> sed purus eu semper morbi id nunc, <br> adipiscing vitae.
+              Ultricies suspendisse vestibulum.
+            </p>
+          </td>
+        </tr>
+      </tbody>
     </table>
     <div class="paignation">
       <div class="page">
@@ -181,10 +204,10 @@
   </div>
 </template>
 <script>
-import Search from "@/components/search.vue";
+/* import Search from "@/components/search.vue"; */
 import axios from "axios";
 export default {
-  components: { Search },
+  // components: { Search },
   data() {
     return {
       sortingDetails: false,
@@ -192,10 +215,11 @@ export default {
       openModal: "",
       openTableDet: "",
       checked_res: "",
-      users: [],
       search: "",
       status: false,
-      msg: ""
+      msg: "",
+      get_id: [],
+      users_d: [],
     };
   },
   methods: {
@@ -212,43 +236,68 @@ export default {
       return (this.openTableDet = "");
     },
 
-    async markPaid(e) {
-      var checked_res = e.target.checked;
-      if (checked_res == true) {
-        try {
-          const res = await axios.get(
-            "https://cornie-assessment.herokuapp.com/mark-paid/"
-          );
+    markPaid(id, type) {
+      //var get_value = e.target._modelValue
+      this.get_id.push({ id: id, type: type });
+    },
+    submitPaid() {
+      this.get_id.forEach((data) => {
+        if (data.type == "unpaid") {
+          console.log(data.id, data.type);
+          try {
+            const res = axios.patch(
+              "https://cornie-assessment.herokuapp.com/mark-paid/" + data.id
+            );
 
-          console, log(res.data);
-        } catch (error) {
-          console.log(error);
+            console.log(res.data);
+          } catch (error) {
+            console.log(error);
+          }
         }
-      }
+      });
     },
 
-     async activate(id) {
-      this.status = true
+    async activate(id) {
+      this.status = true;
       try {
         const res = await axios.patch(
-          "https://cornie-assessment.herokuapp.com/activate-user/"+ id 
+          "https://cornie-assessment.herokuapp.com/activate-user/" + id
         );
-        let rec = res.data
-        if(rec.status == true){
-          this.status = false
-          this.msg = "User Activated"
-          this.$router.go()
-        } 
-
-  
-       // this.users = user;
+        let rec = res.data;
+        if (rec.status == true) {
+          this.status = false;
+          this.msg = "User Activated";
+          this.$router.go();
+        }
         console.log(res.data);
       } catch (error) {
         console.log(error.message);
       }
     },
-  
-    filteredList() {
+
+    async deleteUser(id) {
+      this.status = true;
+      try {
+        const res = await axios.delete(
+          "https://cornie-assessment.herokuapp.com/remove-user/" + id
+        );
+        let rec = res.data;
+        if (rec.status == true) {
+          this.status = false;
+          this.msg = "User Deleted";
+          this.$router.go();
+        }
+        console.log(res.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+  },
+  computed: {
+    users() {
+      return this.$store.state.users;
+    },
+    resultQuery() {
       if (this.search) {
         return this.users.filter((item) => {
           return this.search
@@ -257,27 +306,17 @@ export default {
             .every((v) => item.firstName.toLowerCase().includes(v));
         });
       } else {
-        return this.datas;
+        return this.users;
       }
     },
-
-  
+    /*    filtered(){
+     return this.$store.state.search
+    } */
   },
-
-
-  async created() {
-    try {
-      const res = await axios.get(
-        "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
-      );
-      const size = 8;
-      this.users = res.data.data.slice(0, size);
-    } catch (error) {
-      console.log(error);
-    }
+  mounted() {
+    this.$store.commit("FETCH_ALL_DETAILS");
   },
 };
-
 </script>
 <style scoped>
 @import "../assets/css/hometbldet.css";
