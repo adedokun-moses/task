@@ -22,7 +22,7 @@
             >Overdue</router-link
           >
         </li>
-        <li style="margin-left: 37rem; border-bottom: none">
+        <li class="amount_des">
           Total payable amount:
           <span class="amount">${{ totalAmount }}</span> USD
         </li>
@@ -33,64 +33,21 @@
  <script>
 export default {
   data() {
-    return {
-    };
+    return {};
   },
-  methods(){
-   
-  
-  
-    
-  
-  },
-  computed:{
-    totalAmount(){
-      return this.$store.state.totalAmount
-    }
+  methods() {},
+  computed: {
+    totalAmount() {
+      return this.$store.state.totalAmount;
+    },
   },
   mounted() {
-    this.$store.commit('TOTAL_AMOUNT')
+    this.$store.commit("TOTAL_AMOUNT");
   },
-
-
 };
 </script> 
 
-
 <style scoped>
-.nav {
-  width: 90%;
-  margin: auto;
-}
-.nav ul {
-  display: flex;
-  padding: 0px;
-  list-style: none;
-  border-bottom: 1px solid grey;
-}
-.nav li {
-  margin: 0px 10px;
-  padding-bottom: 3px;
-}
-.nav li a {
-  margin: 0px 10px;
-  padding-bottom: 3px;
-  text-decoration: none;
-  color: #6e6893;
-}
-.nav li:hover {
-  margin: 0px 10px;
-  padding-bottom: 3px;
-  border-bottom: 2px solid grey;
-}
-.router-link-active .router-link-exact-active {
-  margin: 0px 10px;
-  padding-bottom: 3px;
-  border-bottom: 2px solid red;
-}
-.amount {
-  color: #6d5bd0;
-  font-size: 20px;
-  font-weight: bold;
-}
+@import "../assets/css/hometbldet.css";
 </style>
+

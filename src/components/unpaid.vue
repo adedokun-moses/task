@@ -12,7 +12,7 @@
       </thead>
 
       <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
-        <td v-on:click="tableDetails = !tableDetails">
+        <td >
           <input type="checkbox" />
           <i
             class="fa fa-arrow-circle-down"
@@ -25,7 +25,7 @@
             {{ user.email }}
           </h5>
         </td>
-        <td>
+        <td @click="openDetails(user.id)">
           <h5>
             <span
               class="active"
@@ -74,27 +74,6 @@
         </td>
       </tr>
 
-      <div class="dropdown-menu_table" v-show="tableDetails">
-        <table class="dropdown_table">
-          <thead>
-            <th>Date</th>
-            <th>User Activity</th>
-            <th>Details</th>
-          </thead>
-          <tbody>
-            <td>12/APR/2020</td>
-            <td>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Ultricies.
-            </td>
-            <td>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Rhoncus,
-              sed purus eu semper morbi id nunc, adipiscing vitae. Ultricies
-              suspendisse vestibulum.
-            </td>
-          </tbody>
-        </table>
-      </div>
     </table>
     <div class="paignation">
       <div class="page">
@@ -127,8 +106,7 @@ export default {
   components: { Search },
   data() {
     return {
-      sortingDetails: false,
-      tableDetails: false,
+      tableDetails: "",
       openModal: "",
       search: null,
       users: [],
@@ -143,6 +121,12 @@ export default {
       return (this.openModal = "");
     },
 
+ /*    openDetails(id) {
+      if (this.tableDetails == "") {
+        return (this.tableDetails = id);
+      }
+      return (this.tableDetails = "");
+    }, */
     async fetchUsers() {
       try {
         const res = await axios.get(

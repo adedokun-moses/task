@@ -1,6 +1,6 @@
 <template>
- <div class="col-table">
-    <Search/>
+  <div class="col-table">
+    <Search />
     <table>
       <thead>
         <th><input type="checkbox" /></th>
@@ -10,86 +10,99 @@
         <th>Amount</th>
         <th>:</th>
       </thead>
+      <tbody>
+        <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
+          <td>
+            <input type="checkbox" />
+            <i
+              class="fa fa-arrow-circle-down"
+              style="margin-left: 15px; color: #8b83ba"
+            ></i>
+          </td>
+          <td  @click="openTableDetails(user.id)">
+            <h5>
+              {{ user.firstName }} {{ user.lastName }}<br />
+              {{ user.email }}
+            </h5>
+          </td>
+          <td>
+            <h5>
+              <span
+                class="active"
+                style="
+                  background: #e6e6f2 !important;
+                  color: #4a4aff !important;
+                "
+                ><i class="fa fa-circle"></i> {{ user.userStatus }}</span
+              >
+              <br />
+              Last login: {{ user.lastLogin }}
+            </h5>
+          </td>
+          <td>
+            <h5>
+              <span
+                class="paid"
+                style="background: #FFE0E0!important; color: #D30000;!important;"
+                ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
+              >
+              <br />
+              Paid on: {{ user.paidOn }}
+            </h5>
+          </td>
+          <td>
+            <h5>
+              ${{ user.amountInCents }}<br />USD
+              <span style="margin-left: 100px"> View More</span>
+            </h5>
+          </td>
 
-      <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
-        <td v-on:click="tableDetails = !tableDetails">
-          <input type="checkbox" />
-          <i  class="fa fa-arrow-circle-down"  style="margin-left: 15px;  color: #8B83BA;"></i>
-        </td>
-        <td>
-          <h5>
-            {{ user.firstName }} {{ user.lastName }}<br />
-            {{ user.email }}
-          </h5>
-        </td>
-        <td>
-          <h5>
-            <span class="active" style="background: #E6E6F2!important; color: #4A4AFF!important "
-              ><i class="fa fa-circle" ></i> {{ user.userStatus }}</span
-            >
-            <br />
-            Last login: {{ user.lastLogin }}
-          </h5>
-        </td>
-        <td>
-          <h5  >
-            <span class="paid"  style="background: #FFE0E0!important; color: #D30000;!important;"
-              ><i class="fa fa-circle"></i> {{ user.paymentStatus }}</span
-            >
-            <br />
-            Paid on: {{ user.paidOn }}
-          </h5>
-        </td>
-        <td>
-          <h5>
-            ${{ user.amountInCents }}<br />USD
-            <span style="margin-left: 100px"> View More</span>
-          </h5>
-        </td>
+          <td>
+            <button class="delete_button" @click="openDeleteModal(user.id)">
+              :
+            </button>
 
-        <td>
-          <button class="delete_button" @click="openDeleteModal(user.id)">
-            :
-          </button>
+            <div class="dropdown-menu_modal" v-if="openModal == user.id">
+              <div class="contents">
+                <div><label>Edit</label></div>
+              </div>
+              <div class="contents">
+                <div><label>View Profile</label></div>
+              </div>
+              <div class="contents">
+                <div><label>Activate User</label></div>
+              </div>
+              <div class="contents">
+                <div><label style="color: red">Delete User</label></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <!-- <tr v-if="openTableDet_2 == user.id" class="dropdown_table">
+          <td colspan="2" style="text-align: center">
+            <h5>Date</h5>
+            <p>12/APR/2020</p>
+          </td>
+          <td colspan="2">
+            <h5>User Activity</h5>
+            <p>
+              Lorem ipsum dolor sit amet,<br />
+              consectetur adipiscing elit. Ultricies.
+            </p>
+          </td>
+          <td colspan="3">
+            <h5>Details</h5>
+            <p>
+              Lorem ipsum dolor sit amet, <br />consectetur adipiscing elit.
+              Rhoncus,<br />
+              sed purus eu semper morbi id nunc, <br />
+              adipiscing vitae. Ultricies suspendisse vestibulum.
+            </p>
+          </td>
+        </tr> -->
+      </tbody>
 
-          <div class="dropdown-menu_modal" v-if="openModal == user.id">
-            <div class="contents">
-              <div><label>Edit</label></div>
-            </div>
-            <div class="contents">
-              <div><label>View Profile</label></div>
-            </div>
-            <div class="contents">
-              <div><label>Activate User</label></div>
-            </div>
-            <div class="contents">
-              <div><label style="color: red">Delete User</label></div>
-            </div>
-          </div>
-        </td>
-      </tr>
-
-      <div class="dropdown-menu_table" v-show="tableDetails">
-        <table class="dropdown_table">
-          <thead>
-            <th>Date</th>
-            <th>User Activity</th>
-            <th>Details</th>
-          </thead>
-          <tbody>
-            <td>12/APR/2020</td>
-            <td>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Ultricies.
-            </td>
-            <td>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Rhoncus,
-              sed purus eu semper morbi id nunc, adipiscing vitae. Ultricies
-              suspendisse vestibulum.
-            </td>
-          </tbody>
-        </table>
-      </div>
+    
     </table>
     <div class="paignation">
       <div class="page">
@@ -115,14 +128,15 @@
 </template>
 <script>
 import axios from "axios";
-import Search from '@/components/search.vue'
+import Search from "@/components/search.vue";
 export default {
-  components: {Search},
+  components: { Search },
   data() {
     return {
       sortingDetails: false,
       tableDetails: false,
       openModal: "",
+      openTableDet_2: "",
       search: null,
       users: [],
     };
@@ -135,7 +149,14 @@ export default {
       }
       return (this.openModal = "");
     },
-     async fetchUsers() {
+ /*    openTableDetails(id) {
+      if (this.openTableDet_2 == "") {
+        return (this.openTableDet_2 = id);
+      }
+      return (this.openTableDet_2 = "");
+    }, */
+
+    async fetchUsers() {
       try {
         const res = await axios.get(
           "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
@@ -144,17 +165,16 @@ export default {
           return obj.paymentStatus == "overdue";
         });
         this.users = user;
-        console.log(this.users)
+        console.log(this.users);
       } catch (error) {
         console.log(error);
       }
     },
   },
 
-  mounted(){
-    this.fetchUsers()
-  }
- 
+  mounted() {
+    this.fetchUsers();
+  },
 };
 </script>
 <style scoped>
