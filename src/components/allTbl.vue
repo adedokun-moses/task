@@ -110,7 +110,7 @@
               Paid on: {{ user.paidOn }}
             </h5>
           </td>
-          <td @click="openTableDetails(user.id)">
+          <td>
             <h5>
               ${{ user.amountInCents }}<br />USD
               <span
@@ -170,12 +170,13 @@
               consectetur adipiscing elit. Ultricies.
             </p>
           </td>
-          <td colspan="3" >
+          <td colspan="3">
             <h5>Details</h5>
             <p>
-              Lorem ipsum dolor sit amet, <br />consectetur adipiscing elit. 
-              Rhoncus,<br /> sed purus eu semper morbi id nunc, <br> adipiscing vitae.
-              Ultricies suspendisse vestibulum.
+              Lorem ipsum dolor sit amet, <br />consectetur adipiscing elit.
+              Rhoncus,<br />
+              sed purus eu semper morbi id nunc, <br />
+              adipiscing vitae. Ultricies suspendisse vestibulum.
             </p>
           </td>
         </tr>
@@ -204,10 +205,9 @@
   </div>
 </template>
 <script>
-/* import Search from "@/components/search.vue"; */
+
 import axios from "axios";
 export default {
-  // components: { Search },
   data() {
     return {
       sortingDetails: false,
@@ -287,11 +287,13 @@ export default {
           this.msg = "User Deleted";
           this.$router.go();
         }
-        console.log(res.data);
+        /*  console.log(res.data); */
       } catch (error) {
         console.log(error.message);
       }
     },
+
+   
   },
   computed: {
     users() {
@@ -309,12 +311,11 @@ export default {
         return this.users;
       }
     },
-    /*    filtered(){
-     return this.$store.state.search
-    } */
+
   },
   mounted() {
     this.$store.commit("FETCH_ALL_DETAILS");
+    this.$store.commit("SORT_USER") 
   },
 };
 </script>

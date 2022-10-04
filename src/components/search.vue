@@ -52,45 +52,43 @@
         <input
           type="text"
           placeholder="Search Users by Name, Email or Date"
-          v-model="search"
+         @input="execute()"
         />
       </div>
     </div>
     <div class="payment">
       <button @click="markPaid()">Pay Dues</button>
+     
+     
     </div>
   </div>
 </template>
 <script>
 import axios from "axios";
 export default {
+  props: {
+    searchBar: {
+      type: Function,
+    },
+  },
   data() {
     return {
       sortingDetails: false,
-      search: null,
       details: [],
     };
   },
   methods: {
-   
+    execute() {
+      // ... do something here
+      return this.searchBar
+   /*  if (this.searchBar) {
+        this.searchBar();
+      }  */
+    },
   },
 
-  computed:{
-     resultQuery() {
-      if (this.search) {
-        return this.details.filter((item) => {
-          return this.search
-            .toLowerCase()
-            .split(" ")
-            .every((v) => item.firstName.toLowerCase().includes(v));
-        });
-      } else {
-        return this.details;
-      }
-    }
-  },
-  mounted(){
-    this.$parent.users_d = this.resultQuery
+  mounted() {
+    this.$parent.resultQuery = this.search;
   },
 
   async created() {
@@ -99,11 +97,15 @@ export default {
         "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
       );
       this.details = res.data.data;
-     // console.log(this.details);
+      console.log(this.details);
+      // console.log(this.details);
     } catch (error) {
       console.log(error);
     }
-  }, 
+  },
+  created() {
+    this.$emit("new");
+  },
 };
 </script>
 

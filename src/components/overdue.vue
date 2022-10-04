@@ -165,7 +165,6 @@ export default {
           return obj.paymentStatus == "overdue";
         });
         this.users = user;
-        console.log(this.users);
       } catch (error) {
         console.log(error);
       }

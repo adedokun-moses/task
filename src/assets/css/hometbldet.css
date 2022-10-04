@@ -41,16 +41,10 @@ nav li:router-link-exact-active {
   margin: 0px 10px;
   padding-bottom: 3px;
   border-bottom: 2px solid grey;
- /*  background-color: indianred;
-  cursor: pointer; */
+
 }
 
-/* .router-link-exact-active{
-  margin: 0px 10px;
-  padding-bottom: 3px;
-  border-bottom: 2px solid grey;
-} 
- */
+
 /* nav bar ends here */
 
 /* search bar starts here */

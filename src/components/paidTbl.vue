@@ -1,6 +1,7 @@
 <template>
   <div class="col-table">
-    <Search />
+    <Search :searchBar="fiteredUser" />
+
     <table>
       <thead>
         <th><input type="checkbox" /></th>
@@ -11,7 +12,11 @@
         <th>:</th>
       </thead>
       <tbody>
-        <tr class="dropdown-toggle" v-for="user in users" :key="user.id">
+        <tr
+          class="dropdown-toggle"
+          v-for="user in fiteredUser()"
+          :key="user.id"
+        >
           <td>
             <input type="checkbox" />
             <i
@@ -70,29 +75,9 @@
               </div>
             </div>
           </td>
+          
         </tr>
-  <!--       <tr class="dropdown_table" v-if="openTableDet == user.id">
-          <td colspan="2" style="text-align: center">
-            <h5>Date</h5>
-            <p>12/APR/2020</p>
-          </td>
-          <td colspan="2">
-            <h5>User Activity</h5>
-            <p>
-              Lorem ipsum dolor sit amet,<br />
-              consectetur adipiscing elit. Ultricies.
-            </p>
-          </td>
-          <td colspan="3">
-            <h5>Details</h5>
-            <p>
-              Lorem ipsum dolor sit amet, <br />consectetur adipiscing elit.
-              Rhoncus,<br />
-              sed purus eu semper morbi id nunc, <br />
-              adipiscing vitae. Ultricies suspendisse vestibulum.
-            </p>
-          </td>
-        </tr> -->
+        
       </tbody>
     </table>
     <div class="paignation">
@@ -140,19 +125,19 @@ export default {
       return (this.openModal = "");
     },
 
-    /*  openTableDetails(id) {
+  /*   openTableDetails(id) {
       if (this.openTableDet == "") {
-      alert(id)
-        this.openTableDet = id;
+        return (this.openTableDet = id);
       }
-      this.openTableDet = "";
+      return (this.openTableDet = "");
     }, */
+
     async fetchUsers() {
       try {
         const res = await axios.get(
           "https://cornie-assessment.herokuapp.com/users/9eSxi9Aw9420P53"
         );
-        const newuser = res.data.data.filter((obj) => {
+        let newuser = res.data.data.filter((obj) => {
           return obj.paymentStatus == "paid";
         });
         this.users = newuser;
@@ -160,6 +145,23 @@ export default {
         console.log(error);
       }
     },
+
+    fiteredUser() {
+      if (this.search) {
+        return this.users.filter((item) => {
+          return this.search
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.firstName.toLowerCase().includes(v));
+        });
+      } else {
+        return this.users;
+      }
+    },
+
+    /*   newDets(){
+      alert("working")
+    } */
   },
 
   mounted() {

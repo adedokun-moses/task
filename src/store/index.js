@@ -33,7 +33,7 @@ export default createStore({
         .then((res) => {
           const size = 18;
           state.users = res.data.data.slice(0, size);
-          console.log(state.users)
+         /*  console.log(state.users) */
         }).catch((err) => {
           console.log(err)
 
@@ -41,25 +41,36 @@ export default createStore({
 
     },
 
-    SEARCH_BAR(state){
+    SEARCH_BAR(state) {
       if (state.search) {
-          return state.users.filter((item) => {
-            return state.search
-              .toLowerCase()
-              .split(" ")
-              .every((v) => item.firstName.toLowerCase().includes(v));
-          });
-        } else {
-          return state.users;
-        } 
-  
-  
-      } 
-  
-    
+        return state.users.filter((item) => {
+          return state.search
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.firstName.toLowerCase().includes(v));
+        });
+      } else {
+        return state.users;
+      }
+    },
+    SORT_USER(state) {
+      state.users.sort(function (a, b) {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+
+      console.log(state.users);
+    },
 
 
-   
+
+
+
   },
   actions: {
   },

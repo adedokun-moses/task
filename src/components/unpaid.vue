@@ -136,7 +136,7 @@ export default {
           return obj.paymentStatus == "unpaid";
         });
         this.users = user;
-        console.log(this.users);
+   /*      console.log(this.users); */
       } catch (error) {
         console.log(error);
       }
